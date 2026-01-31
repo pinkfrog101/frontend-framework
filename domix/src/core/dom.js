@@ -6,7 +6,7 @@ export function createDOMElement(vnode) { // Converts virtual DOM node to real D
     for(const key in vnode.props){
         el[key] = vnode.props[key];
     }
-    vnode.children.forEach(child => {
+    (vnode.children||[]).forEach(child => {
         el.appendChild(createDOMElement(child));
     }
 
@@ -14,4 +14,5 @@ export function createDOMElement(vnode) { // Converts virtual DOM node to real D
     console.log("DOM element created for", vnode.type);
     return el;
 }
+
 

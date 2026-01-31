@@ -11,7 +11,7 @@ export function diff(parent,oldVnode, newVnode, index = 0) {
     parent.removeChild(parent.childNodes[index]);
     return;
   }
-
+  
   // 3. Node replaced
   if (changed(newVnode, oldVnode)) {
     parent.replaceChild(
@@ -20,17 +20,18 @@ export function diff(parent,oldVnode, newVnode, index = 0) {
     );
     return;
   }
+  updateProps(parent.childNodes[index], oldVnode.props, newVnode.props);
 
   // 4. Same node → diff children
-  if (newVnode.children) {
+  if (typeof newVnode !== "string" && typeof oldVnode !== "string") {
     const newLen = newVnode.children.length;
     const oldLen = oldVnode.children.length;
 
     for (let i = 0; i < Math.max(newLen, oldLen); i++) {
       diff(
         parent.childNodes[index],
-        newVnode.children[i],
         oldVnode.children[i],
+        newVnode.children[i],
         i
       );
     }
@@ -46,4 +47,15 @@ function changed(a, b) {
     a.type !== b.type
   );
 }  
-
+function updateProps(dom, oldProps = {}, newProps = {}) {
+    for (const key in oldProps) {
+      if (!(key in newProps)) {
+        dom[key] = null;
+      }
+    }
+    for (const key in newProps) {
+      if (oldProps[key] !== newProps[key]) {
+        dom[key] = newProps[key];
+      }
+    }
+  }
