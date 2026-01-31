@@ -77,12 +77,4 @@ This mimics the core idea behind React’s reconciliation process.
 
 ---
 
-##  Author
 
-Built by **Mridulamvada Singh** as a deep dive into frontend framework internals.
-
----
-
-##  License
-
-MIT License
